@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+	.container {
+	    text-align: center;
+		margin-top: 100px;
+	}
+	textarea {
+		width: 500px;
+		height: 250px;
+		resize: none;
+		font-size: 22px;
+		font-family: 'Book Antiqua';
+		font-weight: bold;
+		padding: 10px 15px;
+	}
+	button {
+		background-color: rgba(237, 190, 250, 0.909);
+        color: black;
+        border: 2px solid #555555;
+		transition-duration: 0.4s;
+        cursor: pointer;
+	}
+	button:hover {
+        background-color: #555555;
+		color: white;
+    }
+	
+	</style>
+</head>
+
+<body>
+     <div class="container">
+        <textarea id="textarea"></textarea><br>
+		<button id="speak">Type to Speak</button>
+    </div>
+<script>
+    var speak = document.getElementById('speak');
+    var textarea = document.getElementById('textarea');
+	var country = document.getElementById("country");
+	var countryLang = document.getElementById("countryLang");
+	//Now use web speech api, I used both api to make sure one was available to the browser offering the service
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
+		
+					 
+	// select a default language on page load
+	recognition.lang = "ar-SA";
+			
+    //handle the action on click		
+    speak.addEventListener('click', function () {
+        recognition.start();
+        textarea.innerHTML = 'Say anything..';
+    })
+    //Once the result is ready We only control the item we get in response
+    recognition.onresult = function (e) {
+        var transcript = e.results[0][0].transcript;
+	//Link the result to the text area
+        textarea.innerHTML = transcript;
+    }
+</script>
+
+</body>
+
+</html>
